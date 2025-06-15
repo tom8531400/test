@@ -16,6 +16,7 @@ public class Text {
             String message = "104 is coming";
             buffer.put(message.getBytes());
             buffer.flip();
+            //註解
             channel.write(buffer);
         }catch (Exception e){
             throw new Exception(e.getMessage());
