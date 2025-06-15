@@ -7,18 +7,22 @@ import java.nio.channels.FileChannel;
 public class Text {
     public static void main(String[] args) throws Exception {
         RandomAccessFile randomAccessFile = null;
+        FileChannel channel = null;
+        ByteBuffer buffer = null;
         try{
-            randomAccessFile = new RandomAccessFile("wen.txt", "rw");
-            FileChannel channel = randomAccessFile.getChannel();
-            ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
-            int len = channel.read(byteBuffer);
-            if(len != -1){
-                System.out.println(new String(byteBuffer.array(), 0, len));
-            }
+            randomAccessFile = new RandomAccessFile("src/wen.txt", "rw");
+            channel = randomAccessFile.getChannel();
+            buffer = ByteBuffer.allocate(1024);
+            String message = "104 is coming";
+            buffer.put(message.getBytes());
+            buffer.flip();
+            channel.write(buffer);
         }catch (Exception e){
             throw new Exception(e.getMessage());
         }finally {
             if(randomAccessFile != null) randomAccessFile.close();
+            if(channel != null) channel.close();
+            if(buffer != null) buffer.clear();
         }
     }
 }
